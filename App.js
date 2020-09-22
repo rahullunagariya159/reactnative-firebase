@@ -1,15 +1,35 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { createStackNavigator,createAppContainer } from "react-navigation"
+import SignupScreen from './screens/Signup';
+import LoginScreen from "./screens/LoginScreen"
+import LoadingScreen from "./screens/LoadingScreen"
+import HomeScreen from "./screens/HomeScreen"
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+import * as firebase from "firebase";
+import { firebaseConfig } from "./config";
+
+firebase.initializeApp(firebaseConfig);
+
+const mystack = createStackNavigator({
+  loading:LoadingScreen,
+  login:LoginScreen,
+  Home:HomeScreen,
+  Signup:SignupScreen
+},
+{
+  defaultNavigationOptions:{
+    headerStyle:{
+      backgroundColor:'#d9534f',
+    },
+    headerTintColor:'#fff',
+    headerTitleStyle:{
+      fontWeight:'bold'
+    }
+  }
+})
+
+export default createAppContainer(mystack);
 
 const styles = StyleSheet.create({
   container: {
