@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { StyleSheet, Text, View,Image, KeyboardAvoidingView,TouchableOpacity, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View,Image, KeyboardAvoidingView,TouchableOpacity, ActivityIndicator,Alert } from 'react-native';
 import { Container, Header, Content, Form, Item, Input, Label, Button } from 'native-base';
 import * as firebase from "firebase";
 
@@ -11,7 +11,7 @@ export default class LoadingScreen extends React.Component {
   }
 
   componentDidMount(){
-    firebase.auth().onAuthStateChanged((user)=>{
+ this.unsubscribeAuth = firebase.auth().onAuthStateChanged((user)=>{
 
       if(user){
         this.props.navigation.navigate("Home");
@@ -23,7 +23,10 @@ export default class LoadingScreen extends React.Component {
     });
   }
 
-  
+  componentWillUnmount(){
+    this.unsubscribeAuth();
+}
+
   render(){
         return (
             <View style={styles.container}>

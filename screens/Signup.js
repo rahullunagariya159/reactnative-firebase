@@ -1,8 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View,Image, KeyboardAvoidingView,TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View,Image, KeyboardAvoidingView,TouchableOpacity,Alert } from 'react-native';
 import { Container, Header, Content, Form, Item, Input, Label, Button } from 'native-base';
-// import { TouchableOpacity } from 'react-native-gesture-handler';
-
+import * as firebase from "firebase";
 
 export default class SignupScreen extends React.Component {
   
@@ -13,6 +12,19 @@ export default class SignupScreen extends React.Component {
   state = {
     email:"",
     password:""
+  }
+
+  userSignup(email,password){
+
+      console.log(this.state);
+
+    firebase.auth().createUserWithEmailAndPassword(email,password)
+    .then(()=>{
+      this.props.navigation.replace("Home");    
+    })
+    .catch((error)=>{
+      Alert.alert(error.message);
+    })
   }
   
   render(){
@@ -46,7 +58,7 @@ export default class SignupScreen extends React.Component {
               />
             </Item>
 
-            <Button full rounded danger style={{margin:10,justifyContent:"center"}}>
+            <Button full rounded danger style={{margin:10,justifyContent:"center"}} onPress={()=>this.userSignup(this.state.email,this.state.password)}>
               <Text style={{fontSize:22,color:'white'}}>Sign up</Text>
             </Button>
         
